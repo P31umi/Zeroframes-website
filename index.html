@@ -1,0 +1,959 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title id="doc-title">Zeroframes — Brand Film Studio</title>
+<link rel="icon" href="favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+  /* ── INDEX-ONLY STYLES ─── */
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 0 3rem 5rem;
+    position: relative;
+    overflow: hidden;
+    background: var(--black);
+  }
+  .hero-video-wrap {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+    pointer-events: none;
+  }
+  .hero-video-wrap iframe {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100vw;
+    height: 56.25vw;
+    min-width: 177.78vh;
+    min-height: 100vh;
+    transform: translate(-50%, -50%);
+    border: 0;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .hero-video-wrap { display: none; }
+  }
+  .hero-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: linear-gradient(
+      180deg,
+      rgba(10, 10, 10, 0.35) 0%,
+      rgba(10, 10, 10, 0.5) 55%,
+      rgba(10, 10, 10, 0.72) 100%
+    );
+    pointer-events: none;
+  }
+  .hero-bg-text {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: var(--serif);
+    font-size: clamp(100px, 18vw, 260px);
+    color: rgba(255,255,255,0.04);
+    white-space: nowrap;
+    pointer-events: none;
+    letter-spacing: -0.04em;
+    user-select: none;
+    z-index: 2;
+  }
+  .hero-tag {
+    font-size: 0.75rem;
+    font-weight: 400;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+    margin-bottom: 2rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.3s forwards;
+    position: relative;
+    z-index: 2;
+  }
+  .hero h1 {
+    font-family: var(--serif);
+    font-size: clamp(2.8rem, 7vw, 7rem);
+    font-weight: 400;
+    line-height: 1.0;
+    letter-spacing: -0.03em;
+    color: var(--white);
+    max-width: 14ch;
+    opacity: 0;
+    animation: fadeUp 0.9s 0.5s forwards;
+    position: relative;
+    z-index: 2;
+  }
+  .hero h1 em { font-style: italic; color: rgba(255,255,255,0.45); }
+  .hero-bottom {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-top: 4rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.8s forwards;
+    position: relative;
+    z-index: 2;
+  }
+  .hero-desc {
+    font-size: 0.95rem;
+    font-weight: 300;
+    color: rgba(255,255,255,0.5);
+    max-width: 32ch;
+    line-height: 1.7;
+  }
+  .hero-cta-group {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+  }
+  .scroll-hint {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    color: rgba(255,255,255,0.25);
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    position: absolute;
+    bottom: 2.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    animation: fadeIn 1s 1.2s forwards;
+    opacity: 0;
+    z-index: 2;
+  }
+  .scroll-line {
+    width: 0.5px;
+    height: 40px;
+    background: rgba(255,255,255,0.2);
+    animation: scrollPulse 2s ease-in-out infinite;
+  }
+
+  /* SECTION COMMONS */
+  section { padding: 7rem 3rem; }
+  .section-label {
+    font-size: 0.7rem;
+    font-weight: 400;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--mid);
+    margin-bottom: 3rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  .section-label::after {
+    content: '';
+    display: block;
+    width: 30px;
+    height: 0.5px;
+    background: var(--mid);
+  }
+
+  /* WORKS */
+  .works { background: var(--off-white); border-top: 0.5px solid var(--border); }
+  .works-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: 4rem;
+  }
+  .works-header h2 {
+    font-family: var(--serif);
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    font-weight: 400;
+    letter-spacing: -0.03em;
+    line-height: 1.05;
+  }
+  .works-header p {
+    font-size: 0.85rem;
+    color: var(--mid);
+    max-width: 26ch;
+    text-align: right;
+    line-height: 1.7;
+  }
+  .works-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5px;
+  }
+  .work-item {
+    position: relative;
+    overflow: hidden;
+    background: #111;
+    aspect-ratio: 16/10;
+    cursor: none;
+  }
+  .work-item:first-child { grid-column: span 2; aspect-ratio: 21/9; }
+  .work-bg {
+    width: 100%; height: 100%;
+    background-size: cover;
+    background-position: center;
+    transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94), filter 0.5s;
+    filter: brightness(0.6) saturate(0.3);
+  }
+  .work-item:hover .work-bg { transform: scale(1.04); filter: brightness(0.45) saturate(0.2); }
+  .work-info {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    padding: 2rem;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+  }
+  .work-title { font-family: var(--serif); font-size: 1.3rem; color: var(--white); letter-spacing: -0.02em; }
+  .work-meta { font-size: 0.7rem; font-weight: 400; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.45); }
+  .work-arrow {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    border: 0.5px solid rgba(255,255,255,0.25);
+    display: flex; align-items: center; justify-content: center;
+    color: white;
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity 0.3s, transform 0.3s;
+    font-size: 0.9rem;
+  }
+  .work-item:hover .work-arrow { opacity: 1; transform: translateY(0); }
+
+  /* CLIENTS */
+  .clients { background: var(--black); padding: 5rem 3rem; border-top: 0.5px solid rgba(255,255,255,0.06); }
+  .clients-label {
+    font-size: 0.7rem; font-weight: 400; letter-spacing: 0.2em;
+    text-transform: uppercase; color: rgba(255,255,255,0.25);
+    margin-bottom: 3rem;
+    display: flex; align-items: center; gap: 1rem;
+  }
+  .clients-label::after { content: ''; display: block; width: 30px; height: 0.5px; background: rgba(255,255,255,0.2); }
+  .clients-row {
+    display: flex; align-items: center; gap: 0;
+    border-top: 0.5px solid rgba(255,255,255,0.07);
+    border-bottom: 0.5px solid rgba(255,255,255,0.07);
+    overflow: hidden;
+  }
+  .client-item {
+    flex: 1; padding: 2rem;
+    display: flex; align-items: center; justify-content: center;
+    border-right: 0.5px solid rgba(255,255,255,0.07);
+    transition: background 0.3s;
+  }
+  .client-item:last-child { border-right: none; }
+  .client-item:hover { background: rgba(255,255,255,0.03); }
+  .client-name {
+    font-family: var(--serif); font-size: 1.1rem;
+    color: rgba(255,255,255,0.25); letter-spacing: -0.02em;
+    transition: color 0.3s; text-align: center; font-style: italic;
+  }
+  .client-item:hover .client-name { color: rgba(255,255,255,0.6); }
+
+  /* MARQUEE */
+  .marquee-wrapper {
+    background: var(--off-white);
+    border-top: 0.5px solid var(--border);
+    border-bottom: 0.5px solid var(--border);
+    overflow: hidden;
+    padding: 1.2rem 0;
+    white-space: nowrap;
+  }
+  .marquee-track { display: inline-flex; gap: 3rem; animation: marquee 20s linear infinite; }
+  .marquee-item {
+    font-family: var(--serif); font-size: 0.85rem; font-style: italic;
+    color: var(--mid); letter-spacing: 0.02em;
+    display: flex; align-items: center; gap: 3rem;
+  }
+  .marquee-item::after { content: '·'; color: var(--border); }
+
+  /* TESTIMONIALS */
+  .testimonials { background: var(--white); border-top: 0.5px solid var(--border); }
+  .testimonials-grid {
+    display: grid; grid-template-columns: 1fr 1fr 1fr;
+    gap: 1px; background: var(--border);
+    border: 0.5px solid var(--border);
+    margin-top: 3rem;
+  }
+  .testimonial-card {
+    background: var(--white); padding: 2.5rem;
+    display: flex; flex-direction: column; gap: 2rem;
+  }
+  .testimonial-quote {
+    font-family: var(--serif); font-size: 1.05rem;
+    line-height: 1.6; letter-spacing: -0.01em;
+    color: var(--black); flex: 1;
+  }
+  .testimonial-quote::before {
+    content: '\201C'; display: block;
+    font-size: 2.5rem; line-height: 1;
+    color: var(--border); margin-bottom: 0.5rem;
+  }
+  .testimonial-author { display: flex; align-items: center; gap: 1rem; }
+  .author-avatar {
+    width: 36px; height: 36px; border-radius: 50%;
+    background: var(--black); flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.7rem; font-weight: 500;
+    color: var(--off-white); letter-spacing: 0.05em;
+  }
+  .author-name { font-size: 0.85rem; font-weight: 500; color: var(--black); line-height: 1.3; }
+  .author-role { font-size: 0.75rem; color: var(--mid); line-height: 1.3; }
+
+  /* CONTACT SECTION */
+  .contact {
+    background: var(--black);
+    min-height: 70vh;
+    display: flex; flex-direction: column;
+    justify-content: center; align-items: center;
+    text-align: center;
+    position: relative; overflow: hidden;
+  }
+  .contact-bg-text {
+    position: absolute;
+    font-family: var(--serif);
+    font-size: clamp(80px, 15vw, 200px);
+    color: rgba(255,255,255,0.03);
+    letter-spacing: -0.04em;
+    pointer-events: none; user-select: none;
+  }
+  .contact-inner { position: relative; z-index: 1; padding: 5rem 3rem; }
+  .contact-eyebrow {
+    font-size: 0.7rem; font-weight: 400;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    color: rgba(255,255,255,0.3); margin-bottom: 2rem;
+  }
+  .contact h2 {
+    font-family: var(--serif);
+    font-size: clamp(2.5rem, 6vw, 5.5rem);
+    font-weight: 400; letter-spacing: -0.03em;
+    line-height: 1.05; color: var(--white); margin-bottom: 1.5rem;
+  }
+  .contact h2 em { font-style: italic; color: rgba(255,255,255,0.35); }
+  .contact-sub {
+    font-size: 0.95rem; color: rgba(255,255,255,0.4);
+    margin-bottom: 3rem; max-width: 36ch;
+    margin-left: auto; margin-right: auto;
+  }
+  .contact-buttons { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+
+  /* MOBILE — index only */
+  @media (max-width: 768px) {
+    .hero { padding: 0 1.5rem 4rem; min-height: 100svh; }
+    .hero h1 { font-size: clamp(2.4rem, 11vw, 4rem); }
+    .hero-bottom { flex-direction: column; align-items: flex-start; gap: 2rem; margin-top: 2.5rem; }
+    .hero-desc { max-width: 100%; }
+    .scroll-hint { display: none; }
+
+    section { padding: 4rem 1.5rem; }
+
+    .works-header { flex-direction: column; align-items: flex-start; gap: 1rem; margin-bottom: 2rem; }
+    .works-header p { text-align: left; max-width: 100%; }
+    .works-grid { grid-template-columns: 1fr; gap: 1px; }
+    .work-item:first-child { grid-column: span 1; aspect-ratio: 4/3; }
+    .work-item { aspect-ratio: 4/3; }
+    .work-arrow { opacity: 1; transform: none; }
+
+    .clients { padding: 3rem 1.5rem; }
+    .clients-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      border-left: 0.5px solid rgba(255,255,255,0.07);
+    }
+    .client-item {
+      border-right: 0.5px solid rgba(255,255,255,0.07);
+      border-bottom: 0.5px solid rgba(255,255,255,0.07);
+      padding: 1.5rem 1rem;
+    }
+    .client-name { font-size: 0.9rem; }
+
+    .testimonials-grid { grid-template-columns: 1fr; }
+
+    .contact-inner { padding: 3rem 1.5rem; }
+    .contact h2 { font-size: clamp(2rem, 10vw, 3.5rem); }
+    .contact-buttons { flex-direction: column; align-items: center; }
+  }
+
+  @media (max-width: 480px) {
+    .hero h1 { font-size: clamp(2.2rem, 12vw, 3rem); }
+    .clients-row { grid-template-columns: 1fr 1fr; }
+    .hero-cta-group { flex-direction: column; align-items: flex-start; width: 100%; }
+  }
+</style>
+</head>
+<body>
+
+<div class="cursor-dot" id="cursor-dot"></div>
+<div class="cursor-ring" id="cursor-ring"></div>
+
+<!-- CONTACT MODAL — opens default mail client with fields as subject/body (mailto) -->
+<div class="modal-overlay" id="modal-overlay">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <button type="button" class="modal-close" id="modal-close" data-i18n-aria="modalCloseAria" aria-label="Close">✕</button>
+    <p class="modal-label" data-i18n="modalLabel">Start a project</p>
+    <h2 id="modal-title" data-i18n-html="modalTitleHtml">Tell us about<br>your brand.</h2>
+    <div class="form-row">
+      <div class="form-group">
+        <label for="f-name" data-i18n="lblName">Name</label>
+        <input type="text" id="f-name" data-i18n-placeholder="phName" placeholder="Alex Müller" autocomplete="name">
+      </div>
+      <div class="form-group">
+        <label for="f-email" data-i18n="lblEmail">Email</label>
+        <input type="email" id="f-email" data-i18n-placeholder="phEmail" placeholder="alex@brand.com" autocomplete="email">
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="f-budget" data-i18n="lblBudget">Budget</label>
+      <select id="f-budget">
+        <option value="" disabled selected data-i18n-opt="budget_ph">Select a range</option>
+        <option value="Under €5,000" data-i18n-opt="b1">Under €5,000</option>
+        <option value="€5,000 – €15,000" data-i18n-opt="b2">€5,000 – €15,000</option>
+        <option value="€15,000 – €30,000" data-i18n-opt="b3">€15,000 – €30,000</option>
+        <option value="€30,000 – €60,000" data-i18n-opt="b4">€30,000 – €60,000</option>
+        <option value="€60,000+" data-i18n-opt="b5">€60,000+</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="f-brief" data-i18n="lblBrief">Project brief</label>
+      <textarea id="f-brief" data-i18n-placeholder="phBrief" placeholder="Tell us what you're working on, what you need, and any context that helps us understand your brand…"></textarea>
+    </div>
+    <button type="button" class="form-submit" id="form-submit" data-i18n="modalSubmit">Send Enquiry ↗</button>
+    <p class="form-status" id="form-status"></p>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="#" class="nav-logo" aria-label="Zeroframes — Home">
+    <svg viewBox="0 0 1024 166" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+      <path d="M933.411 137.785C919.34 137.785 908.097 134.771 899.679 128.742C891.385 122.588 886.989 114.173 886.487 103.498H915.509C916.639 113.043 922.543 117.815 933.224 117.815C937.871 117.815 941.515 116.999 944.153 115.366C946.919 113.608 948.3 111.222 948.3 108.207C948.3 107.203 948.173 106.323 947.922 105.57C947.671 104.816 947.232 104.126 946.603 103.498C945.975 102.869 945.348 102.304 944.718 101.802C944.216 101.3 943.399 100.86 942.269 100.483C941.139 99.9809 940.134 99.6041 939.255 99.3528C938.501 99.1018 937.306 98.8505 935.673 98.5994C934.165 98.2224 932.972 97.9713 932.091 97.8457C931.213 97.5946 929.831 97.3433 927.947 97.0922C926.063 96.7153 924.679 96.4642 923.8 96.3386C919.78 95.7105 916.388 95.0825 913.625 94.4547C910.86 93.701 907.781 92.5706 904.39 91.0634C901.122 89.5563 898.422 87.8608 896.286 85.9769C894.275 83.9674 892.58 81.3298 891.198 78.0643C889.815 74.6732 889.125 70.7799 889.125 66.3839C889.125 56.5873 893.083 48.9889 900.998 43.5881C908.913 38.1876 918.837 35.4873 930.772 35.4873C944.216 35.4873 954.645 38.2503 962.057 43.7767C969.47 49.1773 973.552 56.713 974.306 66.3839H946.038C945.032 58.8481 939.882 55.0802 930.585 55.0802C926.563 55.0802 923.297 55.8339 920.786 57.341C918.399 58.8481 917.204 61.046 917.204 63.9349C917.204 64.6884 917.331 65.3791 917.58 66.0071C917.832 66.6352 918.21 67.2003 918.713 67.7026C919.34 68.205 919.905 68.6447 920.408 69.0214C921.037 69.3981 921.854 69.7751 922.857 70.1518C923.862 70.5286 924.744 70.8426 925.495 71.0939C926.376 71.3449 927.506 71.5963 928.888 71.8473C930.396 72.0986 931.591 72.3497 932.47 72.601C933.475 72.7264 934.794 72.9777 936.427 73.3545C938.06 73.6058 939.379 73.7941 940.385 73.9196C944.656 74.6732 948.173 75.364 950.939 75.992C953.702 76.6201 956.905 77.7502 960.549 79.383C964.317 80.8902 967.272 82.7113 969.407 84.8465C971.543 86.856 973.365 89.682 974.871 93.3243C976.504 96.8409 977.323 100.986 977.323 105.758C977.323 116.057 973.238 123.97 965.072 129.496C957.032 135.022 946.478 137.785 933.411 137.785Z" fill="currentColor"/>
+      <path d="M837.757 137.597C822.177 137.597 809.677 132.824 800.254 123.279C790.957 113.608 786.307 101.3 786.307 86.3537C786.307 71.7846 790.895 59.6645 800.067 49.9937C809.364 40.3228 821.299 35.4873 835.872 35.4873C849.064 35.4873 860.059 39.5064 868.852 47.5445C880.412 58.0947 886.064 73.7312 885.813 94.4547H816.462C817.466 101.111 819.79 106.323 823.434 110.091C827.078 113.734 831.977 115.555 838.135 115.555C846.05 115.555 851.389 112.352 854.152 105.947H884.118C881.855 115.241 876.454 122.839 867.909 128.742C859.491 134.645 849.44 137.597 837.757 137.597ZM816.649 76.1804H854.717C854.214 70.4029 852.268 65.8188 848.875 62.4278C845.609 59.0365 841.463 57.341 836.437 57.341C825.508 57.341 818.912 63.6209 816.649 76.1804Z" fill="currentColor"/>
+      <path d="M630.613 134.771V38.3133H660.012V52.0659H660.577C667.235 41.0135 676.972 35.4873 689.789 35.4873C702.478 35.4873 711.523 41.1392 716.925 52.4429H717.303C724.588 41.1392 734.704 35.4873 747.645 35.4873C758.323 35.4873 766.427 38.8156 771.955 45.4722C777.608 52.0032 780.436 60.8577 780.436 72.0357V134.771H749.716V77.4992C749.716 66.5722 745.193 61.109 736.148 61.109C731.374 61.109 727.605 62.9301 724.84 66.5722C722.201 70.0889 720.882 74.7989 720.882 80.7018V134.771H690.165V77.4992C690.165 66.5722 685.642 61.109 676.597 61.109C671.822 61.109 668.052 62.9301 665.289 66.5722C662.65 70.0889 661.331 74.7989 661.331 80.7018V134.771H630.613Z" fill="currentColor"/>
+      <path d="M560.884 137.22C550.958 137.22 542.981 134.645 536.95 129.496C530.921 124.347 527.904 117.125 527.904 107.831C527.904 98.0343 531.172 90.938 537.704 86.5423C544.238 82.0208 553.283 79.0065 564.842 77.4994C574.266 76.369 580.673 75.1129 584.065 73.7314C587.582 72.2243 589.342 69.9008 589.342 66.7608C589.342 59.8531 584.944 56.3992 576.15 56.3992C566.726 56.3992 561.512 60.5439 560.509 68.8333H532.24C532.616 59.2878 536.511 51.3754 543.924 45.0955C551.461 38.8159 562.141 35.6759 575.961 35.6759C589.78 35.6759 600.209 38.3135 607.244 43.5884C615.41 49.4915 619.495 58.66 619.495 71.0939V119.7C619.495 127.361 620.625 131.945 622.887 133.452V134.771H593.111C591.854 133.013 590.786 129.433 589.907 124.033H589.529C583.373 132.824 573.825 137.22 560.884 137.22ZM570.684 117.627C576.464 117.627 581.113 116.057 584.63 112.917C588.274 109.652 590.096 105.444 590.096 100.295V88.8031C587.08 90.3102 581.803 92.0057 574.266 93.8896C568.108 95.2711 563.774 96.9039 561.26 98.7877C558.749 100.672 557.492 103.372 557.492 106.889C557.492 114.048 561.89 117.627 570.684 117.627Z" fill="currentColor"/>
+      <path d="M466.817 134.771V38.313H496.216V53.3845H496.781C503.314 42.3321 512.108 36.8059 523.165 36.8059C526.055 36.8059 528.066 37.057 529.196 37.5593V63.9347H528.442C518.894 62.553 511.354 64.2487 505.828 69.0212C500.3 73.6683 497.535 81.1413 497.535 91.4402V134.771H466.817Z" fill="currentColor"/>
+      <path d="M412.049 134.771V57.9063H399.611V38.3133H412.049V31.3429C412.049 21.6719 414.688 14.1989 419.964 8.92391C427.628 1.38816 441.259 -1.37495 460.858 0.634592V22.2999C454.326 22.0487 449.677 22.6139 446.914 23.9955C444.148 25.377 442.767 28.5797 442.767 33.6035V38.3133H460.858V57.9063H442.767V134.771H412.049Z" fill="currentColor"/>
+      <path d="M333.397 108.019C336.917 113.294 341.942 115.932 348.474 115.932C355.007 115.932 360.033 113.294 363.552 108.019C367.194 102.744 369.016 95.648 369.016 86.7306C369.016 77.8134 367.194 70.7172 363.552 65.442C360.033 60.0415 355.007 57.3412 348.474 57.3412C341.942 57.3412 336.917 59.9788 333.397 65.2537C329.88 70.5288 328.12 77.6878 328.12 86.7306C328.12 95.648 329.88 102.744 333.397 108.019ZM385.79 123.279C376.366 132.95 363.99 137.785 348.663 137.785C333.335 137.785 320.897 132.95 311.349 123.279C301.801 113.608 297.027 101.425 297.027 86.7306C297.027 72.0359 301.801 59.8531 311.349 50.1823C320.897 40.5114 333.335 35.6759 348.663 35.6759C363.99 35.6759 376.366 40.5114 385.79 50.1823C395.338 59.8531 400.112 72.0359 400.112 86.7306C400.112 101.425 395.338 113.608 385.79 123.279Z" fill="currentColor"/>
+      <path d="M234.819 134.771V38.313H264.217V53.3845H264.782C271.316 42.3321 280.11 36.8059 291.167 36.8059C294.056 36.8059 296.067 37.057 297.198 37.5593V63.9347H296.443C286.895 62.553 279.356 64.2487 273.83 69.0212C268.302 73.6683 265.537 81.1413 265.537 91.4402V134.771H234.819Z" fill="currentColor"/>
+      <path d="M180.25 137.597C164.671 137.597 152.171 132.824 142.748 123.279C133.451 113.608 128.802 101.3 128.802 86.3537C128.802 71.7846 133.388 59.6645 142.559 49.9937C151.856 40.3228 163.792 35.4873 178.366 35.4873C191.558 35.4873 202.551 39.5064 211.346 47.5445C222.904 58.0947 228.558 73.7312 228.307 94.4547H158.955C159.96 101.111 162.284 106.323 165.928 110.091C169.571 113.734 174.471 115.555 180.627 115.555C188.542 115.555 193.882 112.352 196.646 105.947H226.61C224.349 115.241 218.946 122.839 210.403 128.742C201.986 134.645 191.934 137.597 180.25 137.597ZM159.143 76.1804H197.211C196.709 70.4029 194.761 65.8188 191.369 62.4278C188.103 59.0365 183.957 57.341 178.931 57.341C168.001 57.341 161.405 63.6209 159.143 76.1804Z" fill="currentColor"/>
+      <path d="M41.6925 134.771V111.975L79.9491 70.7169L88.2411 62.2392V61.6741C82.3361 61.7997 78.3785 61.8624 76.3683 61.8624H46.2154V38.3133H125.367V60.9206L88.8064 100.672L79.0067 110.657V111.222C85.6655 111.096 90.4397 111.033 93.3293 111.033H128.194V134.771H41.6925Z" fill="currentColor"/>
+      <path d="M66.3771 4.71413V25.9479H21.2407V57.7984H0V4.71413H66.3771Z" fill="currentColor"/>
+      <path d="M955.83 163.967V142.734H1000.97V110.883H1022.21V163.967H955.83Z" fill="currentColor"/>
+    </svg>
+  </a>
+  <ul class="nav-links" id="nav-links">
+    <li><a href="#works" data-i18n="navWork">Work</a></li>
+    <li><a href="#clients" data-i18n="navClients">Clients</a></li>
+    <li><a href="#testimonials" data-i18n="navReviews">Reviews</a></li>
+    <li class="nav-lang" role="group" data-i18n-aria="navLangAria" aria-label="Language">
+      <button type="button" class="nav-lang-btn is-active" data-lang="en" aria-pressed="true">EN</button>
+      <span class="nav-lang-sep" aria-hidden="true">/</span>
+      <button type="button" class="nav-lang-btn" data-lang="de" aria-pressed="false">DE</button>
+    </li>
+  </ul>
+  <button class="nav-hamburger" id="nav-hamburger" aria-label="Toggle menu">
+    <span></span><span></span>
+  </button>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobile-menu">
+  <a href="#works" class="mobile-link" data-i18n="navWork">Work</a>
+  <a href="#clients" class="mobile-link" data-i18n="navClients">Clients</a>
+  <a href="#testimonials" class="mobile-link" data-i18n="navReviews">Reviews</a>
+  <div class="mobile-lang" role="group" data-i18n-aria="navLangAria" aria-label="Language">
+    <button type="button" class="mobile-lang-btn is-active" data-lang="en" aria-pressed="true">EN</button>
+    <span class="mobile-lang-sep" aria-hidden="true">/</span>
+    <button type="button" class="mobile-lang-btn" data-lang="de" aria-pressed="false">DE</button>
+  </div>
+  <a href="https://calendly.com/p31umi/zeroframes-chat" class="mobile-cta" target="_blank" rel="noopener noreferrer" data-i18n="mobileBookCall">Book a call ↗</a>
+</div>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="hero-video-wrap" aria-hidden="true">
+    <iframe
+      src="https://player.vimeo.com/video/1190624503?background=1&amp;autoplay=1&amp;loop=1&amp;muted=1&amp;playsinline=1&amp;dnt=1"
+      data-i18n-title="videoTitle"
+      title="Background video"
+      tabindex="-1"
+      allow="autoplay; fullscreen; picture-in-picture; encrypted-media"
+      referrerpolicy="strict-origin-when-cross-origin"
+    ></iframe>
+  </div>
+  <div class="hero-overlay" aria-hidden="true"></div>
+  <!-- <div class="hero-bg-text">Film</div> -->
+  <p class="hero-tag" data-i18n="heroTag">Brand Film Studio — Berlin</p>
+  <h1 data-i18n-html="heroTitleHtml">Brands that <em>move</em> people.</h1>
+  <div class="hero-bottom">
+    <p class="hero-desc" data-i18n="heroDesc">Cinematic campaigns, commercials, and social-first content for brands that refuse to be ordinary.</p>
+    <div class="hero-cta-group">
+      <a href="https://calendly.com/p31umi/zeroframes-chat" class="btn-primary" target="_blank" rel="noopener noreferrer" data-i18n="heroBookCall">Book a call ↗</a>
+      <button type="button" class="btn-ghost open-modal" data-i18n="heroEmail">Send an email</button>
+    </div>
+  </div>
+  <div class="scroll-hint">
+    <div class="scroll-line"></div>
+    <span data-i18n="heroScroll">Scroll</span>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-wrapper">
+  <div class="marquee-track">
+    <span class="marquee-item" data-i18n="mq0">Brand Films</span>
+    <span class="marquee-item" data-i18n="mq1">Cinematic Campaigns</span>
+    <span class="marquee-item" data-i18n="mq2">Social Content</span>
+    <span class="marquee-item" data-i18n="mq3">Product Films</span>
+    <span class="marquee-item" data-i18n="mq4">Commercials</span>
+    <span class="marquee-item" data-i18n="mq5">Documentary</span>
+    <span class="marquee-item" data-i18n="mq0">Brand Films</span>
+    <span class="marquee-item" data-i18n="mq1">Cinematic Campaigns</span>
+    <span class="marquee-item" data-i18n="mq2">Social Content</span>
+    <span class="marquee-item" data-i18n="mq3">Product Films</span>
+    <span class="marquee-item" data-i18n="mq4">Commercials</span>
+    <span class="marquee-item" data-i18n="mq5">Documentary</span>
+  </div>
+</div>
+
+<!--
+=== WORKS (temporarily hidden) ===
+<section class="works" id="works">
+  <div class="reveal">
+    <div class="works-header">
+      <h2 data-i18n-html="worksTitleHtml">Selected<br>Works</h2>
+      <p data-i18n="worksLead">A curated selection of campaigns produced for ambitious brands across Europe and beyond.</p>
+    </div>
+  </div>
+  <div class="works-grid reveal">
+    <div class="work-item">
+      <div class="work-bg" style="background-image: url('https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=1600&q=80');"></div>
+      <div class="work-info">
+        <div>
+          <div class="work-title" data-i18n="w1Title">Apex — Brand Campaign</div>
+          <div class="work-meta" data-i18n="w1Meta">Commercial · 2024</div>
+        </div>
+        <div class="work-arrow">↗</div>
+      </div>
+    </div>
+    <div class="work-item">
+      <div class="work-bg" style="background-image: url('https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=900&q=80');"></div>
+      <div class="work-info">
+        <div>
+          <div class="work-title" data-i18n="w2Title">Lune — Product Film</div>
+          <div class="work-meta" data-i18n="w2Meta">Product · 2024</div>
+        </div>
+        <div class="work-arrow">↗</div>
+      </div>
+    </div>
+    <div class="work-item">
+      <div class="work-bg" style="background-image: url('https://images.unsplash.com/photo-1509343256512-d77a5cb3791b?w=900&q=80');"></div>
+      <div class="work-info">
+        <div>
+          <div class="work-title" data-i18n="w3Title">Forma — Social Campaign</div>
+          <div class="work-meta" data-i18n="w3Meta">Social · 2025</div>
+        </div>
+        <div class="work-arrow">↗</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+=== CLIENTS (temporarily hidden) ===
+<div class="clients" id="clients">
+  <div class="clients-label reveal" data-i18n="clientsLabel">Trusted by</div>
+  <div class="clients-row reveal">
+    <div class="client-item"><span class="client-name">Nike</span></div>
+    <div class="client-item"><span class="client-name">Aesop</span></div>
+    <div class="client-item"><span class="client-name">Porsche</span></div>
+    <div class="client-item"><span class="client-name">Ace & Tate</span></div>
+    <div class="client-item"><span class="client-name">Oatly</span></div>
+    <div class="client-item"><span class="client-name">Highsnobiety</span></div>
+  </div>
+</div>
+-->
+
+<!-- In-page anchors while works/clients blocks are commented out (nav/footer links) -->
+<div id="works" aria-hidden="true"></div>
+<div id="clients" aria-hidden="true"></div>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials" id="testimonials">
+  <div class="section-label reveal" data-i18n="testimonialsLabel">What clients say</div>
+  <div class="testimonials-grid reveal">
+    <div class="testimonial-card">
+      <p class="testimonial-quote" data-i18n="tq1">Zeroframes didn't just shoot our campaign — they understood the soul of our brand and translated it into something we couldn't have imagined ourselves.</p>
+      <div class="testimonial-author">
+        <div class="author-avatar">SR</div>
+        <div class="author-info">
+          <div class="author-name">Sophie Richter</div>
+          <div class="author-role" data-i18n="tr1">Head of Brand, Lune Studio</div>
+        </div>
+      </div>
+    </div>
+    <div class="testimonial-card">
+      <p class="testimonial-quote" data-i18n="tq2">The final film exceeded every brief we gave them. The team is visually fluent in a way that's rare — every frame tells a story on its own.</p>
+      <div class="testimonial-author">
+        <div class="author-avatar">MK</div>
+        <div class="author-info">
+          <div class="author-name">Marcus König</div>
+          <div class="author-role" data-i18n="tr2">Creative Director, Forma</div>
+        </div>
+      </div>
+    </div>
+    <div class="testimonial-card">
+      <p class="testimonial-quote" data-i18n="tq3">We came back for a second campaign within three months. That says everything. Zeroframes makes content that actually converts while looking extraordinary.</p>
+      <div class="testimonial-author">
+        <div class="author-avatar">AL</div>
+        <div class="author-info">
+          <div class="author-name">Amara Lewi</div>
+          <div class="author-role" data-i18n="tr3">CMO, Apex Performance</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact" id="contact">
+  <div class="contact-bg-text" data-i18n="contactBg">Let's talk</div>
+  <div class="contact-inner">
+    <p class="contact-eyebrow" data-i18n="contactEyebrow">Start a project</p>
+    <h2 data-i18n-html="contactTitleHtml">Ready to make<br><em>something real?</em></h2>
+    <p class="contact-sub" data-i18n="contactSub">Tell us about your brand and what you're building. We'll take it from there.</p>
+    <div class="contact-buttons">
+      <a href="https://calendly.com/p31umi/zeroframes-chat" class="btn-white" target="_blank" rel="noopener noreferrer" data-i18n="contactBook">Book a call ↗</a>
+      <button type="button" class="btn-outline open-modal" data-i18n="contactEmail">Send an email</button>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <a href="#" class="footer-logo" aria-label="Zeroframes — Home">
+    <svg viewBox="0 0 1024 166" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+      <path d="M933.411 137.785C919.34 137.785 908.097 134.771 899.679 128.742C891.385 122.588 886.989 114.173 886.487 103.498H915.509C916.639 113.043 922.543 117.815 933.224 117.815C937.871 117.815 941.515 116.999 944.153 115.366C946.919 113.608 948.3 111.222 948.3 108.207C948.3 107.203 948.173 106.323 947.922 105.57C947.671 104.816 947.232 104.126 946.603 103.498C945.975 102.869 945.348 102.304 944.718 101.802C944.216 101.3 943.399 100.86 942.269 100.483C941.139 99.9809 940.134 99.6041 939.255 99.3528C938.501 99.1018 937.306 98.8505 935.673 98.5994C934.165 98.2224 932.972 97.9713 932.091 97.8457C931.213 97.5946 929.831 97.3433 927.947 97.0922C926.063 96.7153 924.679 96.4642 923.8 96.3386C919.78 95.7105 916.388 95.0825 913.625 94.4547C910.86 93.701 907.781 92.5706 904.39 91.0634C901.122 89.5563 898.422 87.8608 896.286 85.9769C894.275 83.9674 892.58 81.3298 891.198 78.0643C889.815 74.6732 889.125 70.7799 889.125 66.3839C889.125 56.5873 893.083 48.9889 900.998 43.5881C908.913 38.1876 918.837 35.4873 930.772 35.4873C944.216 35.4873 954.645 38.2503 962.057 43.7767C969.47 49.1773 973.552 56.713 974.306 66.3839H946.038C945.032 58.8481 939.882 55.0802 930.585 55.0802C926.563 55.0802 923.297 55.8339 920.786 57.341C918.399 58.8481 917.204 61.046 917.204 63.9349C917.204 64.6884 917.331 65.3791 917.58 66.0071C917.832 66.6352 918.21 67.2003 918.713 67.7026C919.34 68.205 919.905 68.6447 920.408 69.0214C921.037 69.3981 921.854 69.7751 922.857 70.1518C923.862 70.5286 924.744 70.8426 925.495 71.0939C926.376 71.3449 927.506 71.5963 928.888 71.8473C930.396 72.0986 931.591 72.3497 932.47 72.601C933.475 72.7264 934.794 72.9777 936.427 73.3545C938.06 73.6058 939.379 73.7941 940.385 73.9196C944.656 74.6732 948.173 75.364 950.939 75.992C953.702 76.6201 956.905 77.7502 960.549 79.383C964.317 80.8902 967.272 82.7113 969.407 84.8465C971.543 86.856 973.365 89.682 974.871 93.3243C976.504 96.8409 977.323 100.986 977.323 105.758C977.323 116.057 973.238 123.97 965.072 129.496C957.032 135.022 946.478 137.785 933.411 137.785Z" fill="currentColor"/>
+      <path d="M837.757 137.597C822.177 137.597 809.677 132.824 800.254 123.279C790.957 113.608 786.307 101.3 786.307 86.3537C786.307 71.7846 790.895 59.6645 800.067 49.9937C809.364 40.3228 821.299 35.4873 835.872 35.4873C849.064 35.4873 860.059 39.5064 868.852 47.5445C880.412 58.0947 886.064 73.7312 885.813 94.4547H816.462C817.466 101.111 819.79 106.323 823.434 110.091C827.078 113.734 831.977 115.555 838.135 115.555C846.05 115.555 851.389 112.352 854.152 105.947H884.118C881.855 115.241 876.454 122.839 867.909 128.742C859.491 134.645 849.44 137.597 837.757 137.597ZM816.649 76.1804H854.717C854.214 70.4029 852.268 65.8188 848.875 62.4278C845.609 59.0365 841.463 57.341 836.437 57.341C825.508 57.341 818.912 63.6209 816.649 76.1804Z" fill="currentColor"/>
+      <path d="M630.613 134.771V38.3133H660.012V52.0659H660.577C667.235 41.0135 676.972 35.4873 689.789 35.4873C702.478 35.4873 711.523 41.1392 716.925 52.4429H717.303C724.588 41.1392 734.704 35.4873 747.645 35.4873C758.323 35.4873 766.427 38.8156 771.955 45.4722C777.608 52.0032 780.436 60.8577 780.436 72.0357V134.771H749.716V77.4992C749.716 66.5722 745.193 61.109 736.148 61.109C731.374 61.109 727.605 62.9301 724.84 66.5722C722.201 70.0889 720.882 74.7989 720.882 80.7018V134.771H690.165V77.4992C690.165 66.5722 685.642 61.109 676.597 61.109C671.822 61.109 668.052 62.9301 665.289 66.5722C662.65 70.0889 661.331 74.7989 661.331 80.7018V134.771H630.613Z" fill="currentColor"/>
+      <path d="M560.884 137.22C550.958 137.22 542.981 134.645 536.95 129.496C530.921 124.347 527.904 117.125 527.904 107.831C527.904 98.0343 531.172 90.938 537.704 86.5423C544.238 82.0208 553.283 79.0065 564.842 77.4994C574.266 76.369 580.673 75.1129 584.065 73.7314C587.582 72.2243 589.342 69.9008 589.342 66.7608C589.342 59.8531 584.944 56.3992 576.15 56.3992C566.726 56.3992 561.512 60.5439 560.509 68.8333H532.24C532.616 59.2878 536.511 51.3754 543.924 45.0955C551.461 38.8159 562.141 35.6759 575.961 35.6759C589.78 35.6759 600.209 38.3135 607.244 43.5884C615.41 49.4915 619.495 58.66 619.495 71.0939V119.7C619.495 127.361 620.625 131.945 622.887 133.452V134.771H593.111C591.854 133.013 590.786 129.433 589.907 124.033H589.529C583.373 132.824 573.825 137.22 560.884 137.22ZM570.684 117.627C576.464 117.627 581.113 116.057 584.63 112.917C588.274 109.652 590.096 105.444 590.096 100.295V88.8031C587.08 90.3102 581.803 92.0057 574.266 93.8896C568.108 95.2711 563.774 96.9039 561.26 98.7877C558.749 100.672 557.492 103.372 557.492 106.889C557.492 114.048 561.89 117.627 570.684 117.627Z" fill="currentColor"/>
+      <path d="M466.817 134.771V38.313H496.216V53.3845H496.781C503.314 42.3321 512.108 36.8059 523.165 36.8059C526.055 36.8059 528.066 37.057 529.196 37.5593V63.9347H528.442C518.894 62.553 511.354 64.2487 505.828 69.0212C500.3 73.6683 497.535 81.1413 497.535 91.4402V134.771H466.817Z" fill="currentColor"/>
+      <path d="M412.049 134.771V57.9063H399.611V38.3133H412.049V31.3429C412.049 21.6719 414.688 14.1989 419.964 8.92391C427.628 1.38816 441.259 -1.37495 460.858 0.634592V22.2999C454.326 22.0487 449.677 22.6139 446.914 23.9955C444.148 25.377 442.767 28.5797 442.767 33.6035V38.3133H460.858V57.9063H442.767V134.771H412.049Z" fill="currentColor"/>
+      <path d="M333.397 108.019C336.917 113.294 341.942 115.932 348.474 115.932C355.007 115.932 360.033 113.294 363.552 108.019C367.194 102.744 369.016 95.648 369.016 86.7306C369.016 77.8134 367.194 70.7172 363.552 65.442C360.033 60.0415 355.007 57.3412 348.474 57.3412C341.942 57.3412 336.917 59.9788 333.397 65.2537C329.88 70.5288 328.12 77.6878 328.12 86.7306C328.12 95.648 329.88 102.744 333.397 108.019ZM385.79 123.279C376.366 132.95 363.99 137.785 348.663 137.785C333.335 137.785 320.897 132.95 311.349 123.279C301.801 113.608 297.027 101.425 297.027 86.7306C297.027 72.0359 301.801 59.8531 311.349 50.1823C320.897 40.5114 333.335 35.6759 348.663 35.6759C363.99 35.6759 376.366 40.5114 385.79 50.1823C395.338 59.8531 400.112 72.0359 400.112 86.7306C400.112 101.425 395.338 113.608 385.79 123.279Z" fill="currentColor"/>
+      <path d="M234.819 134.771V38.313H264.217V53.3845H264.782C271.316 42.3321 280.11 36.8059 291.167 36.8059C294.056 36.8059 296.067 37.057 297.198 37.5593V63.9347H296.443C286.895 62.553 279.356 64.2487 273.83 69.0212C268.302 73.6683 265.537 81.1413 265.537 91.4402V134.771H234.819Z" fill="currentColor"/>
+      <path d="M180.25 137.597C164.671 137.597 152.171 132.824 142.748 123.279C133.451 113.608 128.802 101.3 128.802 86.3537C128.802 71.7846 133.388 59.6645 142.559 49.9937C151.856 40.3228 163.792 35.4873 178.366 35.4873C191.558 35.4873 202.551 39.5064 211.346 47.5445C222.904 58.0947 228.558 73.7312 228.307 94.4547H158.955C159.96 101.111 162.284 106.323 165.928 110.091C169.571 113.734 174.471 115.555 180.627 115.555C188.542 115.555 193.882 112.352 196.646 105.947H226.61C224.349 115.241 218.946 122.839 210.403 128.742C201.986 134.645 191.934 137.597 180.25 137.597ZM159.143 76.1804H197.211C196.709 70.4029 194.761 65.8188 191.369 62.4278C188.103 59.0365 183.957 57.341 178.931 57.341C168.001 57.341 161.405 63.6209 159.143 76.1804Z" fill="currentColor"/>
+      <path d="M41.6925 134.771V111.975L79.9491 70.7169L88.2411 62.2392V61.6741C82.3361 61.7997 78.3785 61.8624 76.3683 61.8624H46.2154V38.3133H125.367V60.9206L88.8064 100.672L79.0067 110.657V111.222C85.6655 111.096 90.4397 111.033 93.3293 111.033H128.194V134.771H41.6925Z" fill="currentColor"/>
+      <path d="M66.3771 4.71413V25.9479H21.2407V57.7984H0V4.71413H66.3771Z" fill="currentColor"/>
+      <path d="M955.83 163.967V142.734H1000.97V110.883H1022.21V163.967H955.83Z" fill="currentColor"/>
+    </svg>
+  </a>
+  <span class="footer-copy">© 2025 Zeroframes by Monolith Corp UG. Berlin.</span>
+  <ul class="footer-links">
+    <li><a href="#works" data-i18n="footerWork">Work</a></li>
+    <li><a href="#contact" data-i18n="footerContact">Contact</a></li>
+    <li><a href="https://www.instagram.com/zeroframes.studio/" target="_blank" rel="noopener noreferrer">Instagram</a></li>
+    <li><a href="impressum.html">Impressum</a></li>
+    <li><a href="datenschutz.html">Datenschutz</a></li>
+  </ul>
+</footer>
+
+<script>
+  /* ── CURSOR ── */
+  const cursorDot = document.getElementById('cursor-dot');
+  const cursorRing = document.getElementById('cursor-ring');
+  let ringX = 0, ringY = 0, dotX = 0, dotY = 0;
+  document.addEventListener('mousemove', e => {
+    dotX = e.clientX; dotY = e.clientY;
+    cursorDot.style.left = dotX + 'px';
+    cursorDot.style.top = dotY + 'px';
+  });
+  function animateRing() {
+    ringX += (dotX - ringX) * 0.12;
+    ringY += (dotY - ringY) * 0.12;
+    cursorRing.style.left = ringX + 'px';
+    cursorRing.style.top = ringY + 'px';
+    requestAnimationFrame(animateRing);
+  }
+  animateRing();
+  document.querySelectorAll('a, button, .work-item, .client-item').forEach(el => {
+    el.addEventListener('mouseenter', () => { cursorDot.classList.add('hover'); cursorRing.classList.add('hover'); });
+    el.addEventListener('mouseleave', () => { cursorDot.classList.remove('hover'); cursorRing.classList.remove('hover'); });
+  });
+
+  /* ── NAV ── */
+  const nav = document.getElementById('nav');
+  function updateNavScrolled() {
+    nav.classList.toggle('scrolled', window.scrollY > 60);
+  }
+  window.addEventListener('scroll', updateNavScrolled);
+  updateNavScrolled();
+
+  /* ── HAMBURGER ── */
+  const hamburger = document.getElementById('nav-hamburger');
+  const mobileMenu = document.getElementById('mobile-menu');
+  hamburger.addEventListener('click', () => {
+    const open = hamburger.classList.toggle('open');
+    mobileMenu.classList.toggle('open', open);
+    document.body.style.overflow = open ? 'hidden' : '';
+  });
+  document.querySelectorAll('.mobile-link, .mobile-cta').forEach(el => {
+    el.addEventListener('click', () => {
+      hamburger.classList.remove('open');
+      mobileMenu.classList.remove('open');
+      document.body.style.overflow = '';
+    });
+  });
+
+  /* ── MODAL ── */
+  const overlay = document.getElementById('modal-overlay');
+  const modalClose = document.getElementById('modal-close');
+  function openModal() { overlay.classList.add('open'); document.body.style.overflow = 'hidden'; }
+  function closeModal() { overlay.classList.remove('open'); document.body.style.overflow = ''; }
+  document.querySelectorAll('.open-modal').forEach(el => el.addEventListener('click', openModal));
+  modalClose.addEventListener('click', closeModal);
+  overlay.addEventListener('click', e => { if (e.target === overlay) closeModal(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+  /* ── I18N (EN / DE) ── */
+  const I18N = {
+    en: {
+      pageTitle: 'Zeroframes — Brand Film Studio',
+      navLangAria: 'Language',
+      navWork: 'Work',
+      navClients: 'Clients',
+      navReviews: 'Reviews',
+      mobileBookCall: 'Book a call ↗',
+      modalCloseAria: 'Close',
+      modalLabel: 'Start a project',
+      modalTitleHtml: 'Tell us about<br>your brand.',
+      lblName: 'Name',
+      lblEmail: 'Email',
+      lblBudget: 'Budget',
+      lblBrief: 'Project brief',
+      phName: 'Alex Müller',
+      phEmail: 'alex@brand.com',
+      phBrief: 'Tell us what you\'re working on, what you need, and any context that helps us understand your brand…',
+      budget_ph: 'Select a range',
+      b1: 'Under €5,000',
+      b2: '€5,000 – €15,000',
+      b3: '€15,000 – €30,000',
+      b4: '€30,000 – €60,000',
+      b5: '€60,000+',
+      modalSubmit: 'Send enquiry ↗',
+      formFill: 'Please fill in all fields.',
+      formEmailInvalid: 'Please enter a valid email address.',
+      formMailOpen: 'Your email app should open — send the message to complete your enquiry.',
+      mailSubject: (n) => `New enquiry from ${n} — Zeroframes`,
+      mailBody: (n, e, budgetLine, b) => `Name: ${n}\nEmail: ${e}\nBudget: ${budgetLine}\n\nBrief:\n${b}`,
+      videoTitle: 'Background video',
+      heroTag: 'Brand Film Studio — Berlin',
+      heroTitleHtml: 'Brands that <em>move</em> people.',
+      heroDesc: 'Cinematic campaigns, commercials, and social-first content for brands that refuse to be ordinary.',
+      heroBookCall: 'Book a call ↗',
+      heroEmail: 'Send an email',
+      heroScroll: 'Scroll',
+      mq0: 'Brand Films',
+      mq1: 'Cinematic Campaigns',
+      mq2: 'Social Content',
+      mq3: 'Product Films',
+      mq4: 'Commercials',
+      mq5: 'Documentary',
+      worksTitleHtml: 'Selected<br>Works',
+      worksLead: 'A curated selection of campaigns produced for ambitious brands across Europe and beyond.',
+      w1Title: 'Apex — Brand Campaign',
+      w1Meta: 'Commercial · 2024',
+      w2Title: 'Lune — Product Film',
+      w2Meta: 'Product · 2024',
+      w3Title: 'Forma — Social Campaign',
+      w3Meta: 'Social · 2025',
+      clientsLabel: 'Trusted by',
+      testimonialsLabel: 'What clients say',
+      tq1: 'Zeroframes didn\'t just shoot our campaign — they understood the soul of our brand and translated it into something we couldn\'t have imagined ourselves.',
+      tq2: 'The final film exceeded every brief we gave them. The team is visually fluent in a way that\'s rare — every frame tells a story on its own.',
+      tq3: 'We came back for a second campaign within three months. That says everything. Zeroframes makes content that actually converts while looking extraordinary.',
+      tr1: 'Head of Brand, Lune Studio',
+      tr2: 'Creative Director, Forma',
+      tr3: 'CMO, Apex Performance',
+      contactBg: 'Let\'s talk',
+      contactEyebrow: 'Start a project',
+      contactTitleHtml: 'Ready to make<br><em>something real?</em>',
+      contactSub: 'Tell us about your brand and what you\'re building. We\'ll take it from there.',
+      contactBook: 'Book a call ↗',
+      contactEmail: 'Send an email',
+      footerWork: 'Work',
+      footerContact: 'Contact',
+    },
+    de: {
+      pageTitle: 'Zeroframes — Brandfilm-Studio',
+      navLangAria: 'Sprache',
+      navWork: 'Arbeiten',
+      navClients: 'Kunden',
+      navReviews: 'Stimmen',
+      mobileBookCall: 'Gespräch buchen ↗',
+      modalCloseAria: 'Schließen',
+      modalLabel: 'Projekt starten',
+      modalTitleHtml: 'Erzählen Sie uns von<br>Ihrer Marke.',
+      lblName: 'Name',
+      lblEmail: 'E-Mail',
+      lblBudget: 'Budget',
+      lblBrief: 'Projektskizze',
+      phName: 'Alex Müller',
+      phEmail: 'alex@marke.de',
+      phBrief: 'Woran Sie arbeiten, was Sie brauchen und welcher Kontext uns hilft, Ihre Marke zu verstehen …',
+      budget_ph: 'Spanne wählen',
+      b1: 'Unter 5.000 €',
+      b2: '5.000 – 15.000 €',
+      b3: '15.000 – 30.000 €',
+      b4: '30.000 – 60.000 €',
+      b5: '60.000 €+',
+      modalSubmit: 'Anfrage senden ↗',
+      formFill: 'Bitte alle Felder ausfüllen.',
+      formEmailInvalid: 'Bitte geben Sie eine gültige E-Mail-Adresse ein.',
+      formMailOpen: 'Ihr E-Mail-Programm sollte sich öffnen — senden Sie die Nachricht, um die Anfrage abzuschließen.',
+      mailSubject: (n) => `Neue Anfrage von ${n} — Zeroframes`,
+      mailBody: (n, e, budgetLine, b) => `Name: ${n}\nE-Mail: ${e}\nBudget: ${budgetLine}\n\nProjektskizze:\n${b}`,
+      videoTitle: 'Hintergrundvideo',
+      heroTag: 'Brandfilm-Studio — Berlin',
+      heroTitleHtml: 'Marken, die Menschen <em>bewegen</em>.',
+      heroDesc: 'Kinoreife Kampagnen, Werbespots und Social-First-Content für Marken, die mehr wollen als das Übliche.',
+      heroBookCall: 'Gespräch buchen ↗',
+      heroEmail: 'E-Mail senden',
+      heroScroll: 'Scrollen',
+      mq0: 'Markenfilme',
+      mq1: 'Kinokampagnen',
+      mq2: 'Social-Content',
+      mq3: 'Produktfilme',
+      mq4: 'Werbespots',
+      mq5: 'Dokumentation',
+      worksTitleHtml: 'Ausgewählte<br>Arbeiten',
+      worksLead: 'Eine Auswahl an Kampagnen für ambitionierte Marken in Europa und darüber hinaus.',
+      w1Title: 'Apex — Markenkampagne',
+      w1Meta: 'Werbespot · 2024',
+      w2Title: 'Lune — Produktfilm',
+      w2Meta: 'Produkt · 2024',
+      w3Title: 'Forma — Social-Kampagne',
+      w3Meta: 'Social · 2025',
+      clientsLabel: 'Vertraut von',
+      testimonialsLabel: 'Stimmen unserer Kunden',
+      tq1: 'Zeroframes hat nicht nur unsere Kampagne gedreht — sie haben die Seele unserer Marke verstanden und in etwas übersetzt, das wir uns selbst nicht hätten vorstellen können.',
+      tq2: 'Der fertige Film hat jeden Auftrag übertroffen. Das Team ist visuell auf eine Weise versiert, die selten ist — jedes Bild erzählt für sich eine Geschichte.',
+      tq3: 'Wir kamen innerhalb von drei Monaten für eine zweite Kampagne zurück. Das sagt alles. Zeroframes liefert Inhalte, die konvertieren und dabei außergewöhnlich aussehen.',
+      tr1: 'Leitung Marke, Lune Studio',
+      tr2: 'Creative Director, Forma',
+      tr3: 'CMO, Apex Performance',
+      contactBg: 'Lass uns sprechen',
+      contactEyebrow: 'Projekt starten',
+      contactTitleHtml: 'Bereit, <em>etwas Echtes</em><br>zu schaffen?',
+      contactSub: 'Erzählen Sie uns von Ihrer Marke und Ihrem Vorhaben. Den Rest übernehmen wir.',
+      contactBook: 'Gespräch buchen ↗',
+      contactEmail: 'E-Mail senden',
+      footerWork: 'Arbeiten',
+      footerContact: 'Kontakt',
+    },
+  };
+
+  let currentLang = 'en';
+
+  function applyLang(lang) {
+    currentLang = lang === 'de' ? 'de' : 'en';
+    localStorage.setItem('zeroframes-lang', currentLang);
+    document.documentElement.lang = currentLang;
+    const t = I18N[currentLang];
+
+    const titleEl = document.getElementById('doc-title');
+    if (titleEl) titleEl.textContent = t.pageTitle;
+
+    document.querySelectorAll('[data-i18n]').forEach((el) => {
+      const key = el.getAttribute('data-i18n');
+      if (key && t[key] !== undefined) el.textContent = t[key];
+    });
+    document.querySelectorAll('[data-i18n-html]').forEach((el) => {
+      const key = el.getAttribute('data-i18n-html');
+      if (key && t[key] !== undefined) el.innerHTML = t[key];
+    });
+    document.querySelectorAll('[data-i18n-placeholder]').forEach((el) => {
+      const key = el.getAttribute('data-i18n-placeholder');
+      if (key && t[key] !== undefined) el.placeholder = t[key];
+    });
+    document.querySelectorAll('[data-i18n-aria]').forEach((el) => {
+      const key = el.getAttribute('data-i18n-aria');
+      if (key && t[key] !== undefined) el.setAttribute('aria-label', t[key]);
+    });
+    document.querySelectorAll('[data-i18n-title]').forEach((el) => {
+      const key = el.getAttribute('data-i18n-title');
+      if (key && t[key] !== undefined) el.setAttribute('title', t[key]);
+    });
+    document.querySelectorAll('[data-i18n-opt]').forEach((opt) => {
+      const key = opt.getAttribute('data-i18n-opt');
+      if (key && t[key] !== undefined) opt.textContent = t[key];
+    });
+
+    document.querySelectorAll('.nav-lang-btn, .mobile-lang-btn').forEach((btn) => {
+      const active = btn.getAttribute('data-lang') === currentLang;
+      btn.classList.toggle('is-active', active);
+      btn.setAttribute('aria-pressed', active ? 'true' : 'false');
+    });
+  }
+
+  document.querySelectorAll('.nav-lang-btn, .mobile-lang-btn').forEach((btn) => {
+    btn.addEventListener('click', () => applyLang(btn.getAttribute('data-lang')));
+  });
+
+  const storedLang = localStorage.getItem('zeroframes-lang');
+  applyLang(storedLang === 'de' || storedLang === 'en' ? storedLang : 'en');
+
+  /* ── CONTACT FORM — opens default mail app with pre-filled message (mailto) ── */
+  document.getElementById('form-submit').addEventListener('click', () => {
+    const name   = document.getElementById('f-name').value.trim();
+    const email  = document.getElementById('f-email').value.trim();
+    const budgetSelect = document.getElementById('f-budget');
+    const budgetLine = budgetSelect.options[budgetSelect.selectedIndex].textContent.trim();
+    const budgetValue = budgetSelect.value;
+    const brief  = document.getElementById('f-brief').value.trim();
+    const status = document.getElementById('form-status');
+    const btn    = document.getElementById('form-submit');
+    const t = I18N[currentLang];
+
+    if (!name || !email || !budgetValue || !brief) {
+      status.textContent = t.formFill;
+      status.className = 'form-status error';
+      return;
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      status.textContent = t.formEmailInvalid;
+      status.className = 'form-status error';
+      return;
+    }
+
+    const enquiryMail = 'pelumi@zeroframes.studio';
+    const subject = t.mailSubject(name);
+    const body = t.mailBody(name, email, budgetLine, brief);
+    window.location.href =
+      `mailto:${enquiryMail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+
+    status.textContent = t.formMailOpen;
+    status.className = 'form-status success';
+    btn.textContent = t.modalSubmit;
+  });
+
+  /* ── SCROLL REVEAL ── */
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 80);
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
